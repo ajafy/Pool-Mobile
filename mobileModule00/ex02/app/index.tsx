@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 
 export default function Calculator() {
   const [display, setDisplay] = useState("0");
@@ -18,7 +18,8 @@ export default function Calculator() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.card}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollViewContent}>
+        <View style={styles.card}>
         {/* Display */}
         <View style={styles.display}>
           <Text style={styles.displayText}>{display}</Text>
@@ -33,20 +34,33 @@ export default function Calculator() {
 
           {renderButton("÷", () => logValue("÷"), styles.orangeButton)}
 
-          {["7", "8", "9"].map(n => renderButton(n, () => logValue(n)))}
+          {["7", "8", "9"].map(n => (
+            <React.Fragment key={`btn-${n}`}>
+              {renderButton(n, () => logValue(n))}
+            </React.Fragment>
+          ))}
           {renderButton("×", () => logValue("×"), styles.orangeButton)}
 
-          {["4", "5", "6"].map(n => renderButton(n, () => logValue(n)))}
+          {["4", "5", "6"].map(n => (
+            <React.Fragment key={`btn-${n}`}>
+              {renderButton(n, () => logValue(n))}
+            </React.Fragment>
+          ))}
           {renderButton("-", () => logValue("-"), styles.orangeButton)}
 
-          {["1", "2", "3"].map(n => renderButton(n, () => logValue(n)))}
+          {["1", "2", "3"].map(n => (
+            <React.Fragment key={`btn-${n}`}>
+              {renderButton(n, () => logValue(n))}
+            </React.Fragment>
+          ))}
           {renderButton("+", () => logValue("+"), styles.orangeButton)}
 
           {renderButton("0", () => logValue("0"), [styles.doubleButton])}
           {renderButton(".", () => logValue("."))}
           {renderButton("=", () => logValue("="), styles.orangeButton)}
         </View>
-      </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -55,20 +69,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#e2e8f0',
+    minHeight: 600,
+    minWidth: 375,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
+    padding: 12,
   },
   card: {
     width: '100%',
     maxWidth: 360,
     backgroundColor: '#fff',
     borderRadius: 16,
-    padding: 16,
-    elevation: 6,
+    padding: 12,
+    paddingBottom: 24,
   },
   display: {
-    backgroundColor: '#0f172a',
     padding: 20,
     borderRadius: 10,
     marginBottom: 16,
@@ -76,8 +94,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   displayText: {
-    color: '#fff',
-    fontSize: 36,
+    color: '#0f172a',
+    fontSize: 24,
     textAlign: 'right',
     fontFamily: 'monospace',
   },
@@ -93,17 +111,17 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 10,
   },
   buttonText: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: '600',
   },
   grayButton: {
     backgroundColor: '#cbd5e1',
   },
   orangeButton: {
-    backgroundColor: '#f97316',
+    backgroundColor: '#fb923c',
   },
   doubleButton: {
     width: '47%',
