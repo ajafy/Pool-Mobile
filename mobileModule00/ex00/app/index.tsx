@@ -1,4 +1,4 @@
-import { Button, Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 
 export default function Index() {
   const handlePress = () => {
