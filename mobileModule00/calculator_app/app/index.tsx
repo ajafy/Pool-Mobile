@@ -84,6 +84,8 @@ export default function CalculatorApp() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollViewContent}>
+
       <View style={styles.card}>
         {/* Display */}
         <ScrollView 
@@ -151,6 +153,7 @@ export default function CalculatorApp() {
             {renderButton("=", handleCalculate, styles.orangeButton)}
           </View>
         </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -159,69 +162,81 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e2e8f0",
-    justifyContent: "space-between",
-    minHeight: 600,
-    minWidth: 375,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 12,
+    minHeight: '100%',
   },
   card: {
-    flex: 1,
-    backgroundColor: "#fff",
-    padding: 16,
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: '#fff',
     borderRadius: 16,
+    padding: 12,
+    paddingBottom: 24,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-    marginHorizontal: 16,
-    marginVertical: 8,
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 4,
   },
   displayContainer: {
-    flex: 1,
-    maxHeight: "60%",
-    marginBottom: 12,
+    height: 150,
+    marginBottom: 16,
+    backgroundColor: '#f8fafc',
+    borderRadius: 12,
+    padding: 12,
   },
   displayContent: {
     flexGrow: 1,
+    justifyContent: 'flex-end',
   },
   display: {
-    backgroundColor: "#f8fafc",
-    padding: 16,
-    borderRadius: 10,
-    minHeight: 100,
-    justifyContent: "space-between",
+    justifyContent: 'flex-end',
   },
   expressionText: {
-    fontSize: 22,
-    color: "#666",
+    fontSize: 20,
+    color: "#64748b",
     marginBottom: 8,
+    textAlign: "right",
   },
   resultText: {
-    fontSize: 36,
-    color: "#000",
+    fontSize: 32,
+    color: "#0f172a",
+    textAlign: "right",
   },
   displayText: {
-    color: "#0f172a",
-    fontSize: 24,
-    textAlign: "right",
     fontFamily: "monospace",
   },
   buttonGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
+    gap: 8,
+    marginTop: 8,
   },
   button: {
     width: "23%",
-    aspectRatio: 1.2,
+    aspectRatio: 1,
     backgroundColor: "#f1f5f9",
-    borderRadius: 10,
+    borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 8,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
   },
   buttonText: {
     fontSize: 18,
