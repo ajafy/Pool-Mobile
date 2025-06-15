@@ -45,13 +45,12 @@ export default function CalculatorApp() {
   const handleCalculate = () => {
     try {
       const expression = display.replace(/×/g, '*').replace(/÷/g, '/');
-      console.log(expression);
       const evalResult = evaluate(expression);
-      console.log(evalResult);
-      setResult(evalResult.toString());
+      if (evalResult === Infinity || evalResult === -Infinity || isNaN(evalResult)) {
+        setResult("Invalid Expression");
+      } else setResult(evalResult.toString());
     } catch (err) {
-      console.error(err);
-      setResult("Can't divide by zero");
+      setResult("Invalid Expression");
     }
   };
 
