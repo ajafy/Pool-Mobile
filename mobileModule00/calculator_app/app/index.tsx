@@ -12,6 +12,7 @@ import {evaluate} from "mathjs";
 export default function CalculatorApp() {
   const [display, setDisplay] = useState("0");
   const [result, setResult] = useState("0");
+  const scrollViewRef = React.useRef<ScrollView>(null);
  
 
   const handlePress = (value: string) => {
@@ -53,6 +54,7 @@ export default function CalculatorApp() {
       setResult("Can't divide by zero");
     }
   };
+
   const clearAll = () => {
     setDisplay("0");
     setResult("0");
@@ -82,16 +84,22 @@ export default function CalculatorApp() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollViewContent}
-      >
-        <View style={styles.card}>
-          {/* Display */}
+      <View style={styles.card}>
+        {/* Display */}
+        <ScrollView 
+          ref={scrollViewRef}
+          style={styles.displayContainer}
+          contentContainerStyle={styles.displayContent}
+          showsVerticalScrollIndicator={true}
+          onContentSizeChange={() => {
+            scrollViewRef.current?.scrollToEnd({ animated: true });
+          }}
+        >
           <View style={styles.display}>
             <Text style={[styles.displayText, styles.expressionText]}>{display}</Text>
             <Text style={[styles.displayText, styles.resultText]}>{result}</Text>
           </View>
+        </ScrollView>
 
           {/* Buttons Grid */}
           <View style={styles.buttonGrid}>
@@ -143,7 +151,6 @@ export default function CalculatorApp() {
             {renderButton("=", handleCalculate, styles.orangeButton)}
           </View>
         </View>
-      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -152,36 +159,48 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e2e8f0",
+    justifyContent: "space-between",
     minHeight: 600,
     minWidth: 375,
   },
-  scrollViewContent: {
-    flexGrow: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 12,
-  },
   card: {
-    width: "100%",
-    maxWidth: 360,
+    flex: 1,
     backgroundColor: "#fff",
+    padding: 16,
     borderRadius: 16,
-    padding: 12,
-    paddingBottom: 24,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    marginHorizontal: 16,
+    marginVertical: 8,
+  },
+  displayContainer: {
+    flex: 1,
+    maxHeight: "60%",
+    marginBottom: 12,
+  },
+  displayContent: {
+    flexGrow: 1,
   },
   display: {
-    padding: 20,
+    backgroundColor: "#f8fafc",
+    padding: 16,
     borderRadius: 10,
-    marginBottom: 16,
-    minHeight: 80,
+    minHeight: 100,
     justifyContent: "space-between",
   },
   expressionText: {
-    fontSize: 20,
+    fontSize: 22,
     color: "#666",
+    marginBottom: 8,
   },
   resultText: {
-    fontSize: 32,
+    fontSize: 36,
     color: "#000",
   },
   displayText: {
@@ -196,17 +215,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   button: {
-    width: "22%",
-    aspectRatio: 1,
+    width: "23%",
+    aspectRatio: 1.2,
     backgroundColor: "#f1f5f9",
-    borderRadius: 12,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 8,
   },
   buttonText: {
-    fontSize: 20,
-    fontWeight: "600",
+    fontSize: 18,
+    color: "#0f172a",
+    fontWeight: "500",
   },
   grayButton: {
     backgroundColor: "#cbd5e1",
@@ -215,6 +235,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fb923c",
   },
   doubleButton: {
-    width: "47%",
+    width: "48.5%",
   },
 });
