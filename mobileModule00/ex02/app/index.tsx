@@ -109,7 +109,8 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '100%',
-    maxWidth: 360,
+    maxWidth: 660,
+    minWidth: 360,
     backgroundColor: '#fff',
     borderRadius: 16,
     padding: 12,
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "23%",
-    aspectRatio: 1,
+    height: 60,
     backgroundColor: "#f1f5f9",
     borderRadius: 12,
     justifyContent: "center",
