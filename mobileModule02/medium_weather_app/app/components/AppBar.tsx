@@ -1,6 +1,6 @@
-import { City } from "@/api/weather";
+import { City } from "@/types/weather";
 import { MapPin, Navigation, Search } from "lucide-react-native";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -36,19 +36,15 @@ export default function AppBar({
   const isSmallScreen = width < 200;
   const inputRef = useRef<TextInput>(null);
 
-  // The list keeps the focus on the input when the user taps a line.
-  // So we remove the focus ourselves, else the next tap opens nothing.
   const closeAndRun = (action: () => void) => {
     inputRef.current?.blur();
     action();
   };
 
   return (
-    // When the search is open the bar takes all the height it can.
     <View style={[styles.container, isSearchOpen && styles.containerOpen]}>
       <View style={styles.searchRow}>
         <View style={styles.searchContainer}>
-          {/* Tapping the magnifier searches the text of the input. */}
           <TouchableOpacity onPress={() => closeAndRun(onSearchSubmit)}>
             <Search style={styles.searchIcon} />
           </TouchableOpacity>
@@ -65,7 +61,6 @@ export default function AppBar({
             returnKeyType="search"
           />
         </View>
-        {/* This button shows the weather where the phone is. */}
         <TouchableOpacity
           style={styles.locationButton}
           onPress={() => closeAndRun(onMyLocationPress)}
@@ -79,7 +74,6 @@ export default function AppBar({
           style={styles.suggestionList}
           keyboardShouldPersistTaps="handled"
         >
-          {/* Always first: the weather where the phone is. */}
           <TouchableOpacity
             style={styles.suggestion}
             onPress={() => closeAndRun(onMyLocationPress)}
@@ -122,7 +116,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
-  // Only used while the search is open, to fill the screen.
   containerOpen: {
     flex: 1,
   },

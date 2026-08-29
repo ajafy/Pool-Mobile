@@ -1,4 +1,4 @@
-import { City, Weather } from "@/api/weather";
+import { City, Weather } from "@/types/weather";
 import { Calendar, Cloud, Sun } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -34,22 +34,17 @@ export default function BottomBar({
   locationError: string;
   isLoading: boolean;
 }) {
-  // The app always starts on the first tab.
   const [activeTab, setActiveTab] = useState<Tab>("Current");
-  // 1 when we move to the right tab, -1 to the left one.
-  // It tells the animation from which side the content must arrive.
   const [direction, setDirection] = useState(1);
   const touchStartX = useRef(0);
   const { width } = useWindowDimensions();
   const isSmallScreen = width < 200;
 
-  // Goes from 0 (start of the animation) to 1 (content in place).
   const progress = useRef(new Animated.Value(1)).current;
 
   // Every time the tab changes, play the animation again from the start.
   useEffect(() => {
     progress.setValue(0);
-
     Animated.timing(progress, {
       toValue: 1,
       duration: 250,
@@ -87,14 +82,10 @@ export default function BottomBar({
     }
   };
 
-  // City name, region and country, one on each line.
-  // The three tabs all start with this.
   const renderLocation = (city: City) => (
     <>
       <Text style={styles.infoText}>{city.name}</Text>
-      {city.region !== "" && (
-        <Text style={styles.infoText}>{city.region}</Text>
-      )}
+      {city.region !== "" && <Text style={styles.infoText}>{city.region}</Text>}
       <Text style={styles.infoText}>{city.country}</Text>
     </>
   );
@@ -140,46 +131,24 @@ export default function BottomBar({
     </>
   );
 
-  // The spinner, used every time we are waiting for something.
   const renderLoader = () => (
     <View style={styles.loader}>
       <ActivityIndicator size="large" color="#007AFF" />
     </View>
   );
 
-  // Shows one thing at a time, the first case that is true wins.
   const renderInfo = () => {
     if (searchError) {
       return <Text style={styles.errorText}>{searchError}</Text>;
     }
-
     if (locationError) {
       return <Text style={styles.errorText}>{locationError}</Text>;
     }
-
-    // Waiting for the position of the phone, or for the weather.
-    if (isLoading) {
-      return renderLoader();
-    }
-
-    // No city yet, and nothing is loading: there is nothing to show.
-    if (!selectedCity) {
-      return null;
-    }
-
-    // The city is chosen but the answer of the API is not there yet.
-    if (!weather) {
-      return renderLoader();
-    }
-
-    if (activeTab === "Current") {
-      return renderCurrent(selectedCity, weather);
-    }
-
-    if (activeTab === "Today") {
-      return renderToday(selectedCity, weather);
-    }
-
+    if (isLoading) return renderLoader();
+    if (!selectedCity) return null;
+    if (!weather) return renderLoader();
+    if (activeTab === "Current") return renderCurrent(selectedCity, weather);
+    if (activeTab === "Today") return renderToday(selectedCity, weather);
     return renderWeekly(selectedCity, weather);
   };
 
@@ -253,7 +222,6 @@ const styles = StyleSheet.create({
     color: "#333",
     textAlign: "center",
   },
-  // Takes all the free height so the spinner sits in the middle.
   loader: {
     flex: 1,
     justifyContent: "center",
